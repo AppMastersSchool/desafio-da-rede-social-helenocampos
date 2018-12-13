@@ -11,11 +11,11 @@ class PostForm extends Component {
   createPost() {
     const newPost = {
       content: this.state.text,
-      author: "Heleno",
+      author: this.props.user.name,
       time: new Date().toLocaleTimeString(),
       initialLikes: 0
     };
-    //console.log(newPost);
+    console.log(this.props);
     this.props.onCreate(newPost);
     this.setState({ text: '' });
   }
