@@ -3,7 +3,6 @@ import {Switch, Route, BrowserRouter} from 'react-router-dom';
 import TimeLine from './components/timeLine';
 import PostDetails from './components/postDetails';
 import UserDetails from './components/userDetails';
-import TopMenu from './components/topMenu';
 import About from './components/about';
 
 class App extends Component {
@@ -14,15 +13,6 @@ class App extends Component {
         Página não encontrada.
       </div>
     )
-  }
-
-  showAboutPage(){
-    const myPage = (
-      <div>
-        <h1>Sobre o site </h1>
-      </div>
-    )
-    return myPage;
   }
 
   render(){

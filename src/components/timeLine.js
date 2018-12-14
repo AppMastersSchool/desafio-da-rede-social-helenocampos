@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Post from './post';
 import PostForm from './postForm';
 import TopMenu from './topMenu';
+import Storage from './storage';
 
 const postsArray = []
 const usersArray = [
@@ -18,42 +19,27 @@ const usersArray = [
 ]
 
 class TimeLine extends Component {
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
+    this.storage = new Storage();
     this.state = {
       posts: postsArray,
       selectedUser: usersArray[0]
     }
+
   }
 
   insertPost(post){
     const myPosts = this.state.posts;
     myPosts.unshift(post);
     this.setState({posts: myPosts});
-    this.saveInStorage();
-  }
-
-  saveInStorage(){
-    const posts = JSON.stringify(this.state.posts);
-    localStorage.setItem('savedPosts', posts);
-  }
-
-  saveUsersInStorage(){
-    console.log('saving users');
-    localStorage.setItem('users', JSON.stringify(usersArray));
-  }
-
-  readFromStorage(){
-    const savedPosts = localStorage.getItem('savedPosts');
-    if(savedPosts){
-      this.setState({posts: JSON.parse(savedPosts)})
-    }
+    this.storage.setPosts(this.state.posts);
   }
 
   componentDidMount(){ // é chamado toda vez que o componente é 'montado'
     console.log('App did mount');
-    this.readFromStorage();
-    this.saveUsersInStorage();
+    this.setState({posts: this.storage.getPosts()});
+    this.storage.setUsers(usersArray);
   }
 
   onNavigate(post){

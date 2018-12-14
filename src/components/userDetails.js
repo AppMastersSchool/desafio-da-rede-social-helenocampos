@@ -2,34 +2,26 @@ import React, { Component } from "react";
 import User from './user';
 import Post from './post';
 import TopMenu from './topMenu';
+import Storage from './storage';
 
 class UserDetails extends Component {
 
   constructor(){
     super();
+    this.storage = new Storage();
     this.state = {
       user: null,
       userPosts: null
     }
   }
 
-  readPostsFromStorage(user){
-    const savedPosts = JSON.parse(localStorage.getItem('savedPosts'));
-    const userPosts = savedPosts.filter(post=>
-    post.authorId === parseInt(user.id));
-    console.log(this.props);
-    if(userPosts){
-      this.setState({userPosts:userPosts});
-    }
-  }
-
   componentDidMount(){
-    const users = JSON.parse(localStorage.getItem('users'));
+    const users = this.storage.getUsers();
     const user = users.filter(savedUser => {
       return savedUser.id === parseInt(this.props.match.params.id);
     }).pop();
     this.setState({user});
-    this.readPostsFromStorage(user);
+    this.setState({userPosts:this.storage.getPostsByUser(user)});
   }
 
   render(){
