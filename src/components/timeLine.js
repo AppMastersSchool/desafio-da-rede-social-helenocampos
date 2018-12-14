@@ -15,7 +15,13 @@ const usersArray = [
     name:'elon',
     id: 2,
     profilePic: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/49/Elon_Musk_2015.jpg/220px-Elon_Musk_2015.jpg'
+  },
+  {
+    name:'usuario teste',
+    id: 3,
+    profilePic: 'url(../like-button.png)'
   }
+
 ]
 
 class TimeLine extends Component {
@@ -38,8 +44,8 @@ class TimeLine extends Component {
 
   componentDidMount(){ // é chamado toda vez que o componente é 'montado'
     console.log('App did mount');
-    this.setState({posts: this.storage.getPosts()});
     this.storage.setUsers(usersArray);
+    this.setState({posts: this.storage.getPosts()});
   }
 
   onNavigate(post){
@@ -74,7 +80,8 @@ class TimeLine extends Component {
             user={this.state.selectedUser}
             onCreate={this.insertPost.bind(this)}
           />
-          {
+        {
+
             this.state.posts.map((post,i) => {
               return  (
                       <Post

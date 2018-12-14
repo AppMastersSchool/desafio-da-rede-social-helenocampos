@@ -1,9 +1,15 @@
 class Storage{
   getPosts(){
     console.log('getPosts from Storage class called');
-    return(
-      JSON.parse(localStorage.getItem('savedPosts'))
-    )
+    return this.getFromLocalStorage('savedPosts');
+  }
+
+  getFromLocalStorage(key){ //TODO: make private
+    var collection = JSON.parse(localStorage.getItem(key));
+    if(collection== null){
+      collection = [];
+    }
+    return collection;
   }
 
   getPostsByUser(user){
@@ -22,9 +28,7 @@ class Storage{
 
   getUsers(){
     console.log('getUsers from Storage class called');
-    return(
-      JSON.parse(localStorage.getItem('users'))
-    )
+    return this.getFromLocalStorage('users');
   }
 
   setUsers(users){

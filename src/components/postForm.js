@@ -17,7 +17,6 @@ class PostForm extends Component {
       time: new Date().toLocaleTimeString(),
       initialLikes: 0
     };
-    console.log(this.props);
     this.props.onCreate(newPost);
     this.setState({ text: '' });
   }

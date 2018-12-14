@@ -33,7 +33,6 @@ class Post extends Component{
 
   render(){
 
-    //console.log(this.post);
     return(
       <div className={"post"}>
         <div className={'post-leftContainer'}>

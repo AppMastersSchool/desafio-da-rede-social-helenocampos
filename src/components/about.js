@@ -3,7 +3,6 @@ import TopMenu from './topMenu';
 
 class About extends Component {
   render(){
-    console.log(this.props);
     return(
       <div>
         <TopMenu history={this.props.history}/>
