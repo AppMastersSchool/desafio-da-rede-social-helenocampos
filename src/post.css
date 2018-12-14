@@ -1,6 +1,59 @@
 .post{
   border: 2px solid blue;
-  padding: 20px;
-  margin: 10px;
+  width: 90%;
+  height: 200px;
+  margin: auto;
+  padding-top: 10px;
+  margin-bottom: 10px;
+}
 
+.post-leftContainer{
+  float:left;
+  width: 20%;
+  height: 100%;
+}
+
+.post-profilePic{
+  width: auto;
+  height: 90%;
+}
+
+.post-profilePic img{
+  margin: auto;
+  width: auto;
+  height: 100%;
+  display: block;
+}
+
+.post-profileName{
+  text-align: center;
+  height: 10%;
+  width: auto;
+  margin: auto;
+}
+
+.post-rightContainer{
+  float: clear;
+  height: 100%;
+  margin-left: 20%;
+  padding-left: 10px;
+  position: relative;
+}
+
+.post-info{
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+}
+
+.post-info-time{
+  float:left;
+  padding-top: 20px;
+  margin: auto;
+}
+
+.post-info-likes{
+  float: right;
+  padding-bottom: 20px;
+  padding-right: 10px;
 }

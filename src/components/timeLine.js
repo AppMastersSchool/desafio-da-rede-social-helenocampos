@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Post from './post';
 import PostForm from './postForm';
+import TopMenu from './topMenu';
 
 const postsArray = []
 const usersArray = [
@@ -37,6 +38,11 @@ class TimeLine extends Component {
     localStorage.setItem('savedPosts', posts);
   }
 
+  saveUsersInStorage(){
+    console.log('saving users');
+    localStorage.setItem('users', JSON.stringify(usersArray));
+  }
+
   readFromStorage(){
     const savedPosts = localStorage.getItem('savedPosts');
     if(savedPosts){
@@ -47,6 +53,7 @@ class TimeLine extends Component {
   componentDidMount(){ // é chamado toda vez que o componente é 'montado'
     console.log('App did mount');
     this.readFromStorage();
+    this.saveUsersInStorage();
   }
 
   onNavigate(post){
@@ -64,9 +71,9 @@ class TimeLine extends Component {
     return(
 
         <div>
+          <TopMenu history={this.props.history}/>
           <center><h1> Minha rede social </h1></center>
-          <button onClick={()=>this.props.history.push('/sobre')}>Ver sobre</button>
-          <select onChange={(e) => this.setState({ selectedUser: this.getSelectedUser(e.target.value) })}>
+          Usuário: <select onChange={(e) => this.setState({ selectedUser: this.getSelectedUser(e.target.value) })}>
             {
               usersArray.map((user) => {
                 return (
@@ -86,6 +93,7 @@ class TimeLine extends Component {
               return  (
                       <Post
                         onNavigate = {() => this.onNavigate(post)}
+                        history = {this.props.history}
                         key = {post.time}
                         post={post}
                       />

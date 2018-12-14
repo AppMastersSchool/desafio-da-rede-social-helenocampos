@@ -36,35 +36,46 @@ class Post extends Component{
     //console.log(this.post);
     return(
       <div className={"post"}>
-        <h3
-        onClick={()=>this.props.onNavigate()}
-        >{this.post.content}</h3>
-        <small>{this.post.author}</small>
-        <br/>
-        <small>{this.post.time}</small>
-        <div style={likeLine}>
-          <p> Likes: {this.state.likes} </p>
-          <button
-            onClick={this.doLike}
-            style={{
-              'fontSize': 20,
-              'fontWeight': 'bold',
-              'border': 'none',
-              'borderRadius': 10,
-              'padding': 5
-            }}
-          >
-            <img width='35px' height='35px' src='https://www.freeiconspng.com/uploads/like-button-png-2.png' alt=''/>
-          </button>
-      </div>
+        <div className={'post-leftContainer'}>
+          <div className={'post-profilePic'}>
+              <img
+                onClick={()=>this.props.history.push('/user/'+this.post.authorId)}
+                alt=''
+                src={this.post.authorPic}/>
+          </div>
+          <div className={'post-profileName'}>
+            {this.post.author}
+          </div>
+        </div>
+        <div className={'post-rightContainer'}>
+          <h3
+          onClick={()=>this.props.onNavigate()}
+          >{this.post.content}</h3>
+
+
+
+          <div className={'post-info'}>
+            <div className={'post-info-time'}>
+              {this.post.time}
+            </div>
+
+              <div className={'post-info-likes'}>
+
+                <span> Likes: {this.state.likes}
+                <button
+                  onClick={this.doLike}
+                  style={{
+                    'border': 'none',
+                  }}>
+                  <img width='35px' height='35px' src='https://www.freeiconspng.com/uploads/like-button-png-2.png' alt=''/>
+                </button>
+                 </span>
+              </div>
+          </div>
+        </div>
+
       </div>
     )
   }
 }
-
-const likeLine={
-  'display': 'flex',
-  'justifyContent': 'space-around'
-}
-
 export default Post;

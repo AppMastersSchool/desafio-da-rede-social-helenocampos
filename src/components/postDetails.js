@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Post from './post';
+import TopMenu from './topMenu';
 
 class PostDetails extends Component {
 
@@ -26,6 +27,7 @@ class PostDetails extends Component {
     }else{
       return(
           <div>
+          <TopMenu history={this.props.history}/>
           <Post
             post={this.state.post}
             onNavigate={()=>{}}

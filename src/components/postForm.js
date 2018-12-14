@@ -12,6 +12,8 @@ class PostForm extends Component {
     const newPost = {
       content: this.state.text,
       author: this.props.user.name,
+      authorId: this.props.user.id,
+      authorPic: this.props.user.profilePic,
       time: new Date().toLocaleTimeString(),
       initialLikes: 0
     };
