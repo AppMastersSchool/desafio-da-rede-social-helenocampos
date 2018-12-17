@@ -3,6 +3,7 @@ import User from './user';
 import Post from './post';
 import TopMenu from './topMenu';
 import Storage from './storage';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 class UserDetails extends Component {
 
@@ -11,23 +12,29 @@ class UserDetails extends Component {
     this.storage = new Storage();
     this.state = {
       user: null,
-      userPosts: null
+      userPosts: []
     }
   }
 
   componentDidMount(){
-    const users = this.storage.getUsers();
-    const user = users.filter(savedUser => {
-      return savedUser.id === parseInt(this.props.match.params.id);
-    }).pop();
-    this.setState({user});
-    this.setState({userPosts:this.storage.getPostsByUser(user)});
+    this.storage.getUserAPI(this.props.match.params.id).then(user =>
+      {
+        this.setState({user});
+        this.storage.getPostsFromUserAPI(this.state.user).then(posts =>
+          this.setState({userPosts: posts})
+        );
+      }
+    );
   }
 
   render(){
     if(this.state.user===null){
       return (
-        <div>Loading</div>
+        <div>
+          <center>
+            <CircularProgress />
+          </center>
+        </div>
       )
     }else{
 
@@ -38,6 +45,7 @@ class UserDetails extends Component {
             <hr/>
             <center><h3>Posts</h3></center>
             {
+              this.state.userPosts.length>0?
               this.state.userPosts.map((post,i) => {
                 return  (
                         <Post
@@ -48,6 +56,10 @@ class UserDetails extends Component {
                         />
                 )
               })
+              :
+              <center>
+                <CircularProgress />
+              </center>
             }
           </div>
 

@@ -1,78 +1,90 @@
 import React, {Component} from 'react';
 import "../post.css";
-
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
+import LikeIcon from '@material-ui/icons/ThumbUp';
+import Avatar from '@material-ui/core/Avatar';
+import Grid from '@material-ui/core/Grid';
+import Storage from './storage';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Moment from 'react-moment';
 
 class Post extends Component{
 
   constructor(props){
     super(props);
+    this.storage = new Storage();
     this.post = props.post;
     this.state  = {
-      likes: this.post.initialLikes
+      likes: this.post.initialLikes,
+      loadingLike: false
     }
     this.doLike = this.doLike.bind(this);
   }
 
   doLike(){
-    this.setState({likes: this.state.likes +1}, () =>{
-      this.saveLikesInStorage();
-    })
-  }
-
-  saveLikesInStorage(){
-    const posts = JSON.parse(localStorage.getItem('savedPosts'));
-    const updatePosts = posts.map(savedPost => {
-      if(savedPost.time === this.post.time){
-        savedPost.initialLikes = this.state.likes;
+    this.setState({loadingLike:true}, ()=>
+      {
+        this.storage.incrementPostLike(this.post).then(()=>
+            this.setState({likes: this.state.likes +1,
+              loadingLike: false})
+        );
       }
-      return savedPost;
-    });
-    localStorage.setItem('savedPosts',JSON.stringify(updatePosts));
-    console.table(updatePosts);
+    );
   }
 
   render(){
-
     return(
-      <div className={"post"}>
-        <div className={'post-leftContainer'}>
-          <div className={'post-profilePic'}>
-              <img
-                onClick={()=>this.props.history.push('/user/'+this.post.authorId)}
-                alt=''
-                src={this.post.authorPic}/>
-          </div>
-          <div className={'post-profileName'}>
-            {this.post.author}
-          </div>
-        </div>
-        <div className={'post-rightContainer'}>
-          <h3
-          onClick={()=>this.props.onNavigate()}
-          >{this.post.content}</h3>
+      <div>
+        <Card style={{
+            margin:20
+          }}>
+            <CardContent>
+              <Grid container>
+                <Grid item xs={'auto'}>
+                  <Avatar
+                    onClick={()=>this.props.history.push('/user/'+this.post.authorId)}
+                    style={{
+                      width: 60,
+                      height: 60
+                    }}
+                    alt="" src={this.post.authorPic}/>
+                </Grid>
+                <Grid item xs={6}>
+                  <Typography
+                    onClick={()=>this.props.onNavigate()}
+                    style={{
+                      margin: 10
+                    }}
+                    variant="h5" component="h3">
+                    {this.post.content}
+                  </Typography>
+                </Grid>
+              </Grid>
+            </CardContent>
 
-
-
-          <div className={'post-info'}>
-            <div className={'post-info-time'}>
-              {this.post.time}
-            </div>
-
-              <div className={'post-info-likes'}>
-
-                <span> Likes: {this.state.likes}
-                <button
-                  onClick={this.doLike}
-                  style={{
-                    'border': 'none',
-                  }}>
-                  <img width='35px' height='35px' src='https://www.freeiconspng.com/uploads/like-button-png-2.png' alt=''/>
-                </button>
-                 </span>
-              </div>
-          </div>
-        </div>
-
+          <CardActions>
+            <Typography variant="caption" component="h5">
+              Likes: {this.state.likes}
+            </Typography>
+            {
+              this.state.loadingLike===true?
+              <CircularProgress />
+              :
+              <IconButton
+                onClick={this.doLike}
+                color="primary"  component="span">
+                <LikeIcon />
+              </IconButton>
+            }
+              <Typography  variant="caption" component="h5">
+                <Moment fromNow>{this.post.time}</Moment>
+              </Typography>
+          </CardActions>
+        </Card>
       </div>
     )
   }

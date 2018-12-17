@@ -14,30 +14,25 @@ class PostDetails extends Component {
   }
 
   componentDidMount(){
-    const posts = this.storage.getPosts();
-    const post = posts.filter(savedPost => {
-      return savedPost.time === this.props.match.params.time;
-    }).pop();
-    this.setState({post});
+    this.storage.getPostFromAPI(this.props.match.params.id).then(post =>
+        this.setState({post})
+    );
   }
 
   render(){
-    if(this.state.post===null){
-      return (
+    return(
+      this.state.post==null?
         <div>Loading</div>
-      )
-    }else{
-      return(
-          <div>
+      :
+        <div>
           <TopMenu history={this.props.history}/>
           <Post
+            history = {this.props.history}
             post={this.state.post}
             onNavigate={()=>{}}
           />
-          </div>
-      )
-    }
-
+        </div>
+    )
   }
 }
 
